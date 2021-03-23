@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import Welcome from './Components/welcome'
+import DashBoard from './Components/dashBoard'
 
-function App() {
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+
+export default function App () {
+
+  const authorizeCode = new URLSearchParams(window.location.search).get('code')
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+            <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Company name</a>
+            <button className="navbar-toggler position-absolute d-md-none collapse" type="button" data-bs-toggle="collapsed" data-bs-target="sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
+            <ul className="navbar-nav px-3">
+                <li className="nav-item text-nowrap">
+                    <a className="nav-link" href="/">Sign out</a>
+                </li>
+            </ul>
+        </header>
+        { authorizeCode ? <DashBoard authorizeCode={ authorizeCode } /> : <Welcome /> }
     </div>
-  );
+  )
 }
 
-export default App;
+
