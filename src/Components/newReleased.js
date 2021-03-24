@@ -1,6 +1,6 @@
 import NewReleasedTracks from './MappingForm/newReleasedTracks'
 
-export default function NewReleased ({ newReleased }) {
+export default function NewReleased ({ newReleased, selectSong }) {
     return (
         <div>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -18,7 +18,7 @@ export default function NewReleased ({ newReleased }) {
             </div>
             <div className="d-flex flex-wrap">
                 { newReleased.map(item => {
-                    return <NewReleasedTracks track={item} key={item.id}/>
+                    return <NewReleasedTracks track={item} key={item.id} selectSong={ selectSong }/>
                 })}
             </div>
         </div>

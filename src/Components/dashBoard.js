@@ -2,13 +2,30 @@ import { useState, useEffect } from 'react'
 import NewReleased from './newReleased'
 import Search from './search'
 import SideNav from './sideNav'
+import Player from './player'
+import Lyric from './lyric'
 import SpotifyWebApi from 'spotify-web-api-node'
+import axios from 'axios'
 
 const spotifyApi = new SpotifyWebApi({clientId: 'e244682973e24a3caa0b3a29bb72f95a'})
 
 export default function Dashboard ({ accessToken, search }) {
     const [ searchTracks, setSearchTracks] = useState([])
     const [ newReleased, setNewReleased ] = useState([])
+    const [ song, setSong ] = useState({})
+    const [ lyric, setLyric ] = useState('')
+
+    const selectSong = (artist, title) => {
+        setSong({ artist, title })
+    }
+
+    useEffect(()=> {
+        if (!song) return
+        axios.get(`http://localhost:4000/api/v1/lyric/${song.artist}/${song.title}`)
+        .then(({ data }) => setLyric(data.lyric))
+        .catch(err => console.log(err))
+        console.log(lyric)
+    }, [song])
     
     useEffect(() => {
         if (!accessToken) return
@@ -67,8 +84,10 @@ export default function Dashboard ({ accessToken, search }) {
             <div className="row">
                 <SideNav />
                 <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    { !searchTracks.length ? <NewReleased newReleased={ newReleased }/> : <Search searchTracks={ searchTracks }/> }
+                    { !searchTracks.length ? <NewReleased newReleased={ newReleased } selectSong={ selectSong } /> 
+                                           : <Search searchTracks={ searchTracks } selectSong={ selectSong } /> }
                 </main>
+                <Player accessToken={ accessToken } />
             </div>
         </div>
     )

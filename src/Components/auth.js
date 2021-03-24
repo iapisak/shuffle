@@ -6,9 +6,10 @@ export default function Auth (authorizeCode)  {
     const [ accessToken, setAccessToken ] = useState()
     const [ refreshToken, setRefreshToken] = useState()
     const [ expiresIn, setExpiresIn] = useState()
-    const url = process.env.REACT_APP_API_URL
+    
 
     useEffect(()=> {
+        const url = process.env.REACT_APP_API_URL
         axios.post(`${url}/api/v1/login`, { authorizeCode })
              .then(res => {
                 setAccessToken(res.data.accessToken)
@@ -20,7 +21,7 @@ export default function Auth (authorizeCode)  {
 
     useEffect(()=> {
         if (!refreshToken) return 
-
+        const url = process.env.REACT_APP_API_URL
         const setTimer = setInterval(() => {
             axios.post(`${url}/api/v1/refresh`, { refreshToken })
             .then(res => {

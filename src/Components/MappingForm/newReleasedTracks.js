@@ -1,8 +1,8 @@
-export default function NewReleasedTracks ({ track }) {
+export default function NewReleasedTracks ({ track, selectSong }) {
 
 
     return (
-        <div style={{ cursor: 'pointer' }} >
+        <div style={{ cursor: 'pointer' }} onClick={()=> selectSong(track.artist, track.title)}>
             <img className="round" src={track.image.url} style={{ height: '100px', width: '100px' }} alt='' />
             {/* <div className='ml-3'>
                 <div>{ track.title }</div>

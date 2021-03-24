@@ -1,12 +1,11 @@
 
 export default function Welcome () {
     
-    const clientId = 'e244682973e24a3caa0b3a29bb72f95a',
-          uri = 'http://localhost:3000',
-          scopes = ['user-read-email', 'user-read-private', 'user-read-playback-state', 'user-modify-playback-state', 'user-library-read', 'user-library-modify']
-
+    const clientId = 'e244682973e24a3caa0b3a29bb72f95a'
+    const uri = 'http://localhost:3000'
+    const scopes = ['streaming', 'user-read-email', 'user-read-private', 'user-read-playback-state', 'user-modify-playback-state', 'user-library-read', 'user-library-modify']
     const authorizeURL = `https://accounts.spotify.com/authorize?client_id=${ clientId }&response_type=code&redirect_uri=${ uri }&scope=${ scopes.join('%20') }`
-
+    
     return (
         <div className="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
             <div className="col-md-5 p-lg-5 mx-auto my-5">
