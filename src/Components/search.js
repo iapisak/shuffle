@@ -1,6 +1,6 @@
 import SearchTracks from './MappingForm/searchTracks'
 
-export default function Search ({ searchTracks, selectSong }) {
+export default function Search ({ searchTracks, selectSong, handleModal }) {
     return (
         <div>
             <h2>Search Result</h2>
@@ -17,7 +17,10 @@ export default function Search ({ searchTracks, selectSong }) {
                     </thead>
                     <tbody>
                         { searchTracks.map(item => {
-                            return <SearchTracks track={item} key={item.id} selectSong={ selectSong } />
+                            return <SearchTracks track={item} 
+                                                 key={item.id} 
+                                                 selectSong={ selectSong } 
+                                                 handleModal={ handleModal }/>
                         })}
                     </tbody>
                 </table>

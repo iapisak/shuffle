@@ -1,13 +1,19 @@
-export default function SearchTracks ({ track, selectSong }) {
+export default function SearchTracks ({ track, selectSong, handleModal }) {
+    const { title, artist: { name: artist }, image: { url }, album, duration } = track
+    
     return (
-        <tr style={{ cursor: 'pointer' }} onClick={() => selectSong(track.artist.name, track.title)}>
+        <tr style={{ cursor: 'pointer' }} 
+            onClick={async () => {
+                await selectSong(artist, title, url)
+                await handleModal()
+            }}>
             <td>
-                <img src={track.image.url} style={{ height: '30px', width: '30px' }} alt='' />
+                <img src={ url } style={{ height: '30px', width: '30px' }} alt='' />
             </td>
-            <td>{track.title}</td>
-            <td>{track.album}</td>
-            <td>{track.artist.name}</td>
-            <td>{track.duration}</td>
+            <td>{ title }</td>
+            <td>{ album }</td>
+            <td>{ artist }</td>
+            <td>{ duration }</td>
         </tr>
     )
 }

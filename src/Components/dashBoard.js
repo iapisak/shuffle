@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import NewReleased from './newReleased'
 import Search from './search'
 import SideNav from './sideNav'
-import Player from './player'
-import Lyric from './lyric'
+import TrackInfo from './trackInfo'
 import SpotifyWebApi from 'spotify-web-api-node'
 import axios from 'axios'
 
@@ -15,23 +14,39 @@ export default function Dashboard ({ accessToken, search }) {
     const [ song, setSong ] = useState({})
     const [ lyric, setLyric ] = useState('')
 
-    const selectSong = (artist, title) => {
-        setSong({ artist, title })
+    // Modal Controller
+    const [show, setShow] = useState(false)
+    const handleModal = () => {
+        setShow(!show)
     }
 
+    const selectSong = (artist, title, url) => {
+        setSong({ artist, title, url })
+    }
+
+    useEffect(() => {
+        if (!show) {
+            setSong({})
+            setLyric('')
+        }
+    }, [show])
+
+    // Lyric API
     useEffect(()=> {
-        if (!song) return
-        axios.get(`http://localhost:4000/api/v1/lyric/${song.artist}/${song.title}`)
-        .then(({ data }) => setLyric(data.lyric))
-        .catch(err => console.log(err))
-        console.log(lyric)
-    }, [song])
-    
+        if (!show || !song) return
+        const {artist, title} = song
+        axios.get(`http://localhost:4000/api/v1/lyric/${artist}/${title}`)
+             .then(({ data }) => setLyric(data.lyric) )
+             .catch(err => console.log(err))
+    }, [show, song])
+
+    // Set up accessToken
     useEffect(() => {
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
     }, [accessToken])
-    
+
+    // Search Tracks Functions
     useEffect(() => {
         if (!search) return setSearchTracks([])
         spotifyApi.searchTracks(search).then(data => {
@@ -55,11 +70,11 @@ export default function Dashboard ({ accessToken, search }) {
             setSearchTracks(searhResult)
         })
     }, [search, accessToken])
-
+    // New Released on Dashboard Function
     useEffect(() => {
         if (!accessToken) return setNewReleased([])
         spotifyApi.getNewReleases({ limit: 30, offset: 0, country: 'US'})
-            .then(async res => {
+        .then(async res => {
                 const newReleasedResults = await res.body.albums.items.map(track => {
                 const image = track.images.reduce((min, current) => {
                     if (min.height < current.height) return current
@@ -68,9 +83,9 @@ export default function Dashboard ({ accessToken, search }) {
 
                 return {
                     id: track.id,
+                    title: track.name,
                     artist: track.artists[0].name,
                     image: image,
-                    title: track.name,
                     released: track.release_date,
                     trackUri: track.uri
                 }
@@ -80,15 +95,22 @@ export default function Dashboard ({ accessToken, search }) {
     }, [accessToken]) 
 
     return (
-        <div className="container-fluid">
-            <div className="row">
-                <SideNav />
-                <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    { !searchTracks.length ? <NewReleased newReleased={ newReleased } selectSong={ selectSong } /> 
-                                           : <Search searchTracks={ searchTracks } selectSong={ selectSong } /> }
-                </main>
-                <Player accessToken={ accessToken } />
-            </div>
+        <div className="row">
+            <SideNav />
+            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginLeft: 'auto' }}>
+                { !searchTracks.length ? <NewReleased newReleased={ newReleased } 
+                                                        selectSong={ selectSong } 
+                                                        handleModal={ handleModal } /> 
+                                        : <Search searchTracks={ searchTracks } 
+                                                    selectSong={ selectSong } 
+                                                    handleModal={ handleModal } /> }
+            </main>
+            
+            <TrackInfo show={ show } 
+                        handleModal={ handleModal }
+                        lyric={ lyric }
+                        song= { song }
+                        accessToken={ accessToken }/>
         </div>
     )
 }
