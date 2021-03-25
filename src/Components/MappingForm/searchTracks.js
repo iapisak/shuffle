@@ -1,10 +1,10 @@
 export default function SearchTracks ({ track, selectSong, handleModal }) {
-    const { title, artist: { name: artist }, image: { url }, album, duration } = track
+    const { title, artist: { name: artist }, image: { url }, album, duration, trackUri } = track
     
     return (
         <tr style={{ cursor: 'pointer' }} 
             onClick={async () => {
-                await selectSong(artist, title, url)
+                await selectSong(artist, title, url, trackUri)
                 await handleModal()
             }}>
             <td>

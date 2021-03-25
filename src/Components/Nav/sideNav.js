@@ -20,7 +20,7 @@ export default function SideNav () {
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/">
-                        Orders
+                        Furtures
                         </a>
                     </li>
                 </ul>
@@ -34,13 +34,7 @@ export default function SideNav () {
                 <ul className="nav flex-column mb-2">
                     <li className="nav-item">
                         <a className="nav-link" href="/">
-                        Current month
-                        </a>
-                    </li>
-
-                    <li className="nav-item">
-                        <a className="nav-link" href="/">
-                        Year-end sale
+                        Favorite tracks
                         </a>
                     </li>
                 </ul>

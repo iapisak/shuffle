@@ -1,16 +1,17 @@
 import React from 'react'
 import SpotifyWebPlayer from 'react-spotify-web-playback'
 
-export default function Player ({ accessToken }) {
+export default function Player ({ accessToken, trackUri }) {
     if (!accessToken) return null
     
     return <SpotifyWebPlayer 
-        token={accessToken}
-        uris={[]}
+                token={accessToken}
+                uris={trackUri ? trackUri : ''}
+                showSaveIcon
 
         styles={{
             activeColor: '#fff',
-            bgColor: '#333',
+            bgColor: 'red',
             color: '#fff',
             loaderColor: '#fff',
             sliderColor: '#1cb954',

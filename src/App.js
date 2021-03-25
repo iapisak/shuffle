@@ -1,47 +1,93 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import SpotifyWebApi from 'spotify-web-api-node'
 import Auth from './Components/auth'
+import Header from './Components/header'
+import SideNav from './Components/sideNav'
 import Welcome from './Components/welcome'
 import DashBoard from './Components/dashBoard'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
-
 
 const authorizeCode = new URLSearchParams(window.location.search).get('code')
 
 export default function App () {
     const accessToken = Auth(authorizeCode)
-    const [ search, setSearch ] = useState('')    
-  
-  return (
-    <div>
-        <header className="navbar navbar-dark navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow-dark flex-md-nowrap p-0 shadow" style={{ backgroundColor: '#212529'}}>
-            <a className="navbar-brand col-md-3 col-lg-2 mr-0 px-3 p-2" href="/">Spotify</a>
-            <button className="navbar-toggler position-absolute d-md-none collapsed" style={{ top: '.25rem', right: '1rem' }}
-                    type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            {
-                accessToken ? <>    
-                                    <input className="form-control form-control-dark w-100" 
-                                        type="search" placeholder="Search Songs/Artists" aria-label="Search" 
-                                        value={ search } onChange={(e)=> setSearch(e.target.value)} />
-                                    <ul className="navbar-nav px-3">
-                                        <li className="nav-item text-nowrap">
-                                            <a className="nav-link" href="/">Sign out</a>
-                                        </li>
-                                    </ul>
-                                </>
-                            : null
-            }
-        </header>
-        <div className='container-fluid'>
-            { accessToken ? <DashBoard accessToken={ accessToken } search={ search }/> : <Welcome /> }
-        </div>
-        <div className='bg-dark'>
-            bottom
-        </div>
-    </div>
-  )
+    const [ searchKey, setSearchKey ] = useState('')   
+    const [ newReleased, setNewReleased ] = useState([])
+    const [ searchTracks, setSearchTracks] = useState([])
+
+    // New Released on Dashboard Function
+    useEffect(() => {
+        if (!accessToken) return
+        const spotifyApi = new SpotifyWebApi({
+            clientId: 'e244682973e24a3caa0b3a29bb72f95a',
+            accessToken: accessToken
+        })
+        spotifyApi.getNewReleases({ limit: 30, offset: 0, country: 'US'})
+        .then(async res => {
+                const newReleasedResults = await res.body.albums.items.map(track => {
+                const image = track.images.reduce((min, current) => {
+                    if (min.height < current.height) return current
+                    return min
+                }, track.images[0])
+
+                return {
+                    id: track.id,
+                    title: track.name,
+                    artist: track.artists[0].name,
+                    image: image,
+                    released: track.release_date,
+                    trackUri: track.uri
+                }
+            })
+        setNewReleased(newReleasedResults)
+        })
+    }, [accessToken]) 
+
+    // Search Tracks Functions
+    useEffect(() => {
+        if (!accessToken) return
+        if (!searchKey) return setSearchTracks([])
+        const spotifyApi = new SpotifyWebApi({
+            clientId: 'e244682973e24a3caa0b3a29bb72f95a',
+            accessToken: accessToken
+        })
+        spotifyApi.searchTracks(searchKey).then(data => {
+            const results = data.body.tracks.items.map(track => {
+                const image = track.album.images.reduce((min, current) => {
+                    if (min.height < current.height) return current
+                    return min
+                }, track.album.images[0])
+
+                return {
+                    id: track.id,
+                    title: track.name,
+                    artist: track.artists[0],
+                    album: track.album.name,
+                    image: image,
+                    released: track.album.release_date,
+                    duration: track.duration_ms,
+                    trackUri: track.uri,
+                }
+            })
+            setSearchTracks(results)
+        })
+    }, [searchKey, accessToken])
+
+    return  <div className='container-fluid p-0'>
+                <Header accessToken={ accessToken } 
+                        searchKey={ searchKey } 
+                        setSearchKey={ setSearchKey } />
+                { accessToken ? 
+                <div className='d-flex flex-column'>
+                    <SideNav />
+                    <DashBoard accessToken={ accessToken }
+                               newReleased={ newReleased }
+                               searchTracks={ searchTracks }/> 
+                </div>
+                : <Welcome /> }
+            </div>
 }
 
 
