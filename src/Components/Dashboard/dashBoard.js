@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import CurrentlyPlay from './CurrentlyPlay/currentlyPlay'
 import NewReleased from './NewReleased/newReleased'
-import Search from '../search'
-import TrackInfo from '../TrackPlayer/trackInfo'
+import Search from './Search/search'
+import TrackPlayer from '../TrackPlayer/trackPlayer'
 
-export default function Dashboard ({ accessToken, newReleased, searchTracks }) {
-    const [ song, setSong ] = useState({})
+const initialSong = { 
+    artist: '', 
+    artists: [], 
+    album: '',
+    title: '', 
+    url: '', 
+    trackUri: '' }
+
+export default function Dashboard ({ accessToken, currentlyPlay, setCurrentlyPlay, newReleased, searchTracks }) {
+
+    const [ song, setSong ] = useState(initialSong)
     const [ lyric, setLyric ] = useState('')
+    const [ play, setPlay ] = useState(false)
 
     // Modal Controller
     const [show, setShow] = useState(false)
@@ -14,16 +25,24 @@ export default function Dashboard ({ accessToken, newReleased, searchTracks }) {
         setShow(!show)
     }
 
-    const selectSong = (artist, title, url, trackUri) => {
-        setSong({ artist, title, url, trackUri })
-    }
-
     useEffect(() => {
         if (!show) {
-            setSong({})
+            setSong(initialSong)
             setLyric('')
         }
     }, [show])
+
+    useEffect(() => {
+        if (play === false) return
+        if (!currentlyPlay.length) return setCurrentlyPlay([song])
+        
+        const isTrue = currentlyPlay.filter(item => item.trackUri === song.trackUri)
+        
+        if (isTrue.length) return
+        const newArray = [...currentlyPlay]
+        newArray.unshift(song)
+        setCurrentlyPlay(newArray)
+    }, [play])
 
     // Lyric API
     useEffect(()=> {
@@ -31,22 +50,27 @@ export default function Dashboard ({ accessToken, newReleased, searchTracks }) {
         const {artist, title} = song
         axios.get(`http://localhost:4000/api/v1/lyric/${artist}/${title}`)
              .then(({ data }) => setLyric(data.lyric) )
-             .catch(err => console.log(err))
     }, [show, song])
-
+    
     return (
-            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ position: 'fixed', right: '0', height: '100vh' }}>
-                { !searchTracks.length ? <NewReleased newReleased={ newReleased } 
-                                                        selectSong={ selectSong } 
-                                                        handleModal={ handleModal } /> 
+            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginLeft: 'auto' }}>
+                { !searchTracks.length ? <>
+                                        <CurrentlyPlay currentlyPlay={ currentlyPlay } 
+                                                setSong={ setSong } 
+                                                handleModal={ handleModal } /> 
+                                        <NewReleased newReleased={ newReleased } 
+                                                setSong={ setSong } 
+                                                handleModal={ handleModal } /> 
+                                        </>
                                         : <Search searchTracks={ searchTracks } 
-                                                    selectSong={ selectSong } 
-                                                    handleModal={ handleModal } /> }
-            <TrackInfo show={ show } 
-                        handleModal={ handleModal }
-                        lyric={ lyric }
-                        song= { song }
-                        accessToken={ accessToken }/>
+                                                  setSong={ setSong } 
+                                                  handleModal={ handleModal } /> }
+            <TrackPlayer show={ show } 
+                         handleModal={ handleModal }
+                         setPlay={ setPlay }
+                         lyric={ lyric }
+                         song= { song }
+                         accessToken={ accessToken }/>
             </main>
     )
 }

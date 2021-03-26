@@ -1,21 +1,12 @@
-export default function SideNav () {
-    const sidebar = {
-        position: 'fixed',
-        top: '0',
-        bottom: '0',
-        left: '0',
-        'zndex': '100',
-        padding: '48px 0 0',
-        'box-shadow': 'inset -1px 0 0 rgb(0 0 0 / 10%)'}
+export default function Nav () {
 
     return (
-        <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light collapse sidebar" 
-            sytle={ {sidebar} }>
-            <div className="position-sticky pt-3">
+        <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block collapse sidebar" style={{ backgroundColor: '#F6F6F8'}}>
+            <div className="pt-3">
                 <ul className="nav flex-column">
                     <li className="nav-item">
                         <a className="nav-link active" aria-current="page" href="/">
-                        New Released
+                        Dashboard
                         </a>
                     </li>
                     <li className="nav-item">
