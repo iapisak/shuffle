@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import SpotifyWebApi from 'spotify-web-api-node'
 import Auth from './Components/auth'
-import Nav from './Components/Nav/NavBar'
+import Nav from './Components/Nav/navBar'
 import DashBoard from './Components/Dashboard/dashBoard'
 import LandingPage from './Components/LandingPage/landingPage'
 
