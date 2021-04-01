@@ -24,7 +24,7 @@ export default function Home ({ newReleased, recentlyPlayed, setSong, handleModa
                 style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.4)' }}>New Songs</h1>
             <div className="table-responsive">
                 <table className="table table-sm text-light font-weight-light">
-                    <thead className='text-warning' style={{ backgroundColor: 'rgba(117,98,19,0.9)' }}>
+                    <thead className='text-light text-normal' style={{ backgroundColor: 'rgba(117,98,19,0.3)' }}>
                         <tr>
                             <th></th>
                             <th>Title</th>

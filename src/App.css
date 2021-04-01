@@ -8,8 +8,8 @@ body {
   color: whitesmoke;
 }
 
-.font-pk {
-  color: #FA255E;
+input[type='search']::placeholder {
+  text-align: center;
 }
 
 .sidebar {

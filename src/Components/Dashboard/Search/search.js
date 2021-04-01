@@ -1,4 +1,3 @@
-import TracksInfo from '../TracksInfo/tracksInfo'
 
 export default function Search ({ searchKey, searchTracks, setSong, handleModal }) {
 
@@ -13,15 +12,31 @@ export default function Search ({ searchKey, searchTracks, setSong, handleModal 
                     <div className='mt-3 p-3' style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
                         <h1 className='display-5 text-light pb-2' 
                             style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.1)' }}>Artists/Songs</h1>
-                        <TracksInfo tracksInfo={ searchTracks } 
-                                    setSong={ setSong }
-                                    handleModal={ handleModal } />
+                        <div className='d-flex' style={{ overflowX: 'scroll' }}>
+                            { searchTracks.map(track => {
+                                const { id, title, artist: { name: artist }, artists, image: { url }, trackUri } = track
+                                const trackKey = `${id} + ${ artist }`
+                                
+                                return <div className="mr-3 mb-3 border-0"
+                                            key={ trackKey}
+                                            style={{ width: '8rem', flexShrink: '0', cursor: 'pointer', backgroundColor: 'none' }}
+                                            onClick={ async ()=> { 
+                                                    await setSong({ artist, artists, title, url, trackUri })
+                                                    await handleModal() }}>
+                                            <img className="card-img-top" src={ url } 
+                                                style={{ borderRadius:'5%' }} alt="" />
+                                            <div className="card-body p-1 text-center" style={{ fontSize: '.8rem'}}>
+                                                <div className="text-light">{ title }</div>
+                                            </div>
+                                        </div>
+                            }) }
+                        </div>  
                     </div>
                     <h1 className='display-5 text-light px-3 mt-3' 
                         style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.4)' }}>Search Result</h1>
                     <div className="table-responsive">
                         <table className="table table-sm text-light font-weight-light">
-                            <thead className='text-warning' style={{ backgroundColor: 'rgba(117,98,19,0.9)' }}>
+                            <thead className='text-light' style={{ backgroundColor: 'rgba(117,98,19,0.3)' }}>
                                 <tr>
                                     <th></th>
                                     <th>Title</th>

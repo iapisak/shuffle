@@ -1,7 +1,7 @@
 export default function Welcome () {
     
     const clientId = 'e244682973e24a3caa0b3a29bb72f95a'
-    const uri = 'http://localhost:3000'
+    const uri = process.env.REACT_APP_API_REDIRECT
     const scopes = ['streaming', 'user-read-email', 'user-read-private', 'user-read-playback-state', 'user-modify-playback-state', 'user-library-read', 'user-library-modify']
     const authorizeURL = `https://accounts.spotify.com/authorize?client_id=${ clientId }&response_type=code&redirect_uri=${ uri }&scope=${ scopes.join('%20') }`
     
