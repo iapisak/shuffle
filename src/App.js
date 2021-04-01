@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import SpotifyWebApi from 'spotify-web-api-node'
 import Auth from './Components/auth'
-import Header from './Components/Header/header'
-import Nav from './Components/Nav/nav'
-import LandingPage from './Components/LandingPage/landingPage'
+import Nav from './Components/Nav/NavBar'
 import DashBoard from './Components/Dashboard/dashBoard'
+import LandingPage from './Components/LandingPage/landingPage'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
-import background from './bg.png'
 
 const authorizeCode = new URLSearchParams(window.location.search).get('code')
 
@@ -17,7 +15,7 @@ export default function App () {
     const [ searchKey, setSearchKey ] = useState('')   
     const [ newReleased, setNewReleased ] = useState([])
     const [ searchTracks, setSearchTracks] = useState([])
-    const [ currentlyPlay, setCurrentlyPlay ] = useState([])
+    const [ recentlyPlayed, setRecentlyPlayed ] = useState([])
 
     // New Released on Dashboard Function
     useEffect(() => {
@@ -80,21 +78,18 @@ export default function App () {
         })
     }, [searchKey, accessToken])
 
-    return  <div className='container-fluid p-0'>
-                <Header accessToken={ accessToken } 
-                        searchKey={ searchKey } 
-                        setSearchKey={ setSearchKey } />
-                { accessToken ? 
-                <div className='d-flex flex-column'>
-                    <Nav />
+    return  accessToken ? 
+                <div className='container d-flex flex-column' style={{ height: '100vh' }}>
+                    <Nav searchKey={ searchKey } 
+                         setSearchKey={ setSearchKey } />
                     <DashBoard accessToken={ accessToken }
-                               currentlyPlay={ currentlyPlay }
-                               setCurrentlyPlay= { setCurrentlyPlay }
-                               newReleased={ newReleased }
-                               searchTracks={ searchTracks }/> 
+                            recentlyPlayed={ recentlyPlayed }
+                            setRecentlyPlayed= { setRecentlyPlayed }
+                            newReleased={ newReleased }
+                            searchKey={ searchKey }
+                            searchTracks={ searchTracks }/> 
                 </div>
-                : <LandingPage /> }
-            </div>
+            : <LandingPage /> 
 }
 
 

@@ -33,6 +33,6 @@ export default function Auth (authorizeCode)  {
         return () => clearInterval(setTimer)
 
     }, [ refreshToken, expiresIn ])
-
+    
     return accessToken
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import CurrentlyPlay from './CurrentlyPlay/currentlyPlay'
-import NewReleased from './NewReleased/newReleased'
+import Home from './Home/home'
 import Search from './Search/search'
 import TrackPlayer from '../TrackPlayer/trackPlayer'
 
@@ -13,13 +12,28 @@ const initialSong = {
     url: '', 
     trackUri: '' }
 
-export default function Dashboard ({ accessToken, currentlyPlay, setCurrentlyPlay, newReleased, searchTracks }) {
+export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPlayed, newReleased, searchKey, searchTracks }) {
 
     const [ song, setSong ] = useState(initialSong)
     const [ lyric, setLyric ] = useState('')
     const [ play, setPlay ] = useState(false)
+    
+    const addRecentlyPlayed = async () => {
+        if (!song.trackUri) return 
+        if (!recentlyPlayed.length) return setRecentlyPlayed([song])
+        const isTrue = await recentlyPlayed.filter(item => item.trackUri === song.trackUri)
+        if (isTrue.length) return
+        const newArray = [...recentlyPlayed]
+        newArray.unshift(song)
+        setRecentlyPlayed(newArray)
+    }
 
-    // Modal Controller
+    useEffect(() => {
+        if (!play) return
+        addRecentlyPlayed()
+    })
+
+    // Modal Controller //
     const [show, setShow] = useState(false)
     const handleModal = () => {
         setShow(!show)
@@ -31,18 +45,7 @@ export default function Dashboard ({ accessToken, currentlyPlay, setCurrentlyPla
             setLyric('')
         }
     }, [show])
-
-    useEffect(() => {
-        if (play === false) return
-        if (!currentlyPlay.length) return setCurrentlyPlay([song])
-        
-        const isTrue = currentlyPlay.filter(item => item.trackUri === song.trackUri)
-        
-        if (isTrue.length) return
-        const newArray = [...currentlyPlay]
-        newArray.unshift(song)
-        setCurrentlyPlay(newArray)
-    }, [play])
+    // Modal Controller //
 
     // Lyric API
     useEffect(()=> {
@@ -52,25 +55,24 @@ export default function Dashboard ({ accessToken, currentlyPlay, setCurrentlyPla
              .then(({ data }) => setLyric(data.lyric) )
     }, [show, song])
     
-    return (
-            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginLeft: 'auto' }}>
-                { !searchTracks.length ? <>
-                                        <CurrentlyPlay currentlyPlay={ currentlyPlay } 
-                                                setSong={ setSong } 
-                                                handleModal={ handleModal } /> 
-                                        <NewReleased newReleased={ newReleased } 
-                                                setSong={ setSong } 
-                                                handleModal={ handleModal } /> 
-                                        </>
-                                        : <Search searchTracks={ searchTracks } 
-                                                  setSong={ setSong } 
-                                                  handleModal={ handleModal } /> }
-            <TrackPlayer show={ show } 
-                         handleModal={ handleModal }
-                         setPlay={ setPlay }
-                         lyric={ lyric }
-                         song= { song }
-                         accessToken={ accessToken }/>
-            </main>
-    )
+    return  <>
+                { !searchKey 
+                    ? <Home newReleased={ newReleased }
+                            recentlyPlayed={ recentlyPlayed }
+                            setSong={ setSong } 
+                            handleModal={ handleModal }/> 
+                    : <Search   searchKey={ searchKey }
+                                searchTracks={ searchTracks } 
+                                setSong={ setSong } 
+                                handleModal={ handleModal } /> 
+                }
+
+                <TrackPlayer    show={ show } 
+                                handleModal={ handleModal }
+                                setPlay={ setPlay }
+                                lyric={ lyric }
+                                song= { song }
+                                accessToken={ accessToken }/>
+            </>
+            
 }
