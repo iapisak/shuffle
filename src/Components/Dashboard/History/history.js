@@ -1,7 +1,6 @@
-export default function RecentlyPlayed ({ recentlyPlayed }) {
+export default function History ({ recentlyPlayed }) {
 
     return  <>
-
             <div className='mt-3 p-3' style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
                 <h1 className='display-5 text-success pb-2'
                     style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.1))' }}>Recently Played</h1>

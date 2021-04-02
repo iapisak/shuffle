@@ -4,7 +4,6 @@ import Auth from './Components/auth'
 import Nav from './Components/Nav/navBar'
 import DashBoard from './Components/Dashboard/dashBoard'
 import LandingPage from './Components/LandingPage/landingPage'
-import Recently from './Components/RecentlyPlayed/recentlyPlayed'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -94,15 +93,14 @@ function App () {
                          setSearchKey={ setSearchKey } 
                          toggle={ toggle} 
                          setToggle={ setToggle } />
-                    { toggle    ? <Recently recentlyPlayed={ recentlyPlayed } />
-                                : <DashBoard accessToken={ accessToken }
-                                        recentlyPlayed={ recentlyPlayed }
-                                        setRecentlyPlayed= { setRecentlyPlayed }
-                                        newReleased={ newReleased }
-                                        searchKey={ searchKey }
-                                        searchTracks={ searchTracks }/> 
-                    }
-                    
+                    <DashBoard accessToken={ accessToken }
+                            recentlyPlayed={ recentlyPlayed }
+                            setRecentlyPlayed= { setRecentlyPlayed }
+                            newReleased={ newReleased }
+                            searchKey={ searchKey }
+                            searchTracks={ searchTracks } 
+                            toggle={ toggle } 
+                            setToggle={ setToggle } /> 
                 </div>
             : <LandingPage /> 
 }
