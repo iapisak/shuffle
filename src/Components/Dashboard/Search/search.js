@@ -10,7 +10,7 @@ export default function Search ({ searchKey, searchTracks, setSong, handleModal 
                 
             :   <>
                     <div className='mt-3 p-3' style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
-                        <h1 className='display-5 text-light pb-2' 
+                        <h1 className='display-5 text-success pb-2' 
                             style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.1)' }}>Artists/Songs</h1>
                         <div className='d-flex' style={{ overflowX: 'scroll' }}>
                             { searchTracks.map(track => {
@@ -36,7 +36,7 @@ export default function Search ({ searchKey, searchTracks, setSong, handleModal 
                         style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.4)' }}>Search Result</h1>
                     <div className="table-responsive">
                         <table className="table table-sm text-light font-weight-light">
-                            <thead className='text-light' style={{ backgroundColor: 'rgba(117,98,19,0.3)' }}>
+                            <thead className='text-light bg-danger'>
                                 <tr>
                                     <th></th>
                                     <th>Title</th>

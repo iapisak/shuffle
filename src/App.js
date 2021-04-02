@@ -12,8 +12,6 @@ const authorizeCode = new URLSearchParams(window.location.search).get('code')
 
 function App () {
     const accessToken = Auth(authorizeCode)
-    console.log(authorizeCode)
-    console.log(accessToken)
     const [ searchKey, setSearchKey ] = useState('')   
     const [ newReleased, setNewReleased ] = useState([])
     const [ searchTracks, setSearchTracks] = useState([])

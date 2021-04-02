@@ -12,6 +12,14 @@ input[type='search']::placeholder {
   text-align: center;
 }
 
+.navbar-link {
+  cursor: pointer;
+}
+
+.navbar-link:hover {
+  color: #ba8b00 !important;
+}
+
 .sidebar {
     position: fixed;
     top: 0;

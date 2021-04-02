@@ -4,7 +4,7 @@ export default function Home ({ newReleased, recentlyPlayed, setSong, handleModa
     
     return  <>
             <div className='mt-3 p-3' style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
-                <h1 className='display-5 text-light pb-2'
+                <h1 className='display-5 text-success pb-2'
                     style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.1))' }}>Recently Played</h1>
                 { recentlyPlayed.length
                     ?   <TracksInfo tracksInfo={ recentlyPlayed } 
@@ -24,7 +24,7 @@ export default function Home ({ newReleased, recentlyPlayed, setSong, handleModa
                 style={{ textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.4)' }}>New Songs</h1>
             <div className="table-responsive">
                 <table className="table table-sm text-light font-weight-light">
-                    <thead className='text-light text-normal' style={{ backgroundColor: 'rgba(117,98,19,0.3)' }}>
+                    <thead className='text-light bg-danger'>
                         <tr>
                             <th></th>
                             <th>Title</th>
