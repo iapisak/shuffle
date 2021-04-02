@@ -51,8 +51,10 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     useEffect(()=> {
         if (!show || !song) return
         const {artist, title} = song
-        axios.get(`http://localhost:4000/api/v1/lyric/${artist}/${title}`)
-             .then(({ data }) => setLyric(data.lyric) )
+        const url = process.env.REACT_APP_API_URL
+        axios.get(`${url}/api/v1/lyric/${artist}/${title}`)
+             .then(({ data }) => setLyric(data.lyric))
+             .catch(err => console.log(err))
     }, [show, song])
     
     return  <>
