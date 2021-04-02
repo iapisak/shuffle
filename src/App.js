@@ -4,6 +4,7 @@ import Auth from './Components/auth'
 import Nav from './Components/Nav/navBar'
 import DashBoard from './Components/Dashboard/dashBoard'
 import LandingPage from './Components/LandingPage/landingPage'
+import Recently from './Components/RecentlyPlayed/recentlyPlayed'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -16,6 +17,15 @@ function App () {
     const [ newReleased, setNewReleased ] = useState([])
     const [ searchTracks, setSearchTracks] = useState([])
     const [ recentlyPlayed, setRecentlyPlayed ] = useState([])
+    const [ toggle, setToggle ] = useState(false)
+    
+    useEffect(()=> {
+        if (searchKey) return setToggle(false)
+    }, [searchKey])
+
+    useEffect(() => {
+        if (toggle) return setSearchKey('')
+    }, [toggle])
 
     // New Released on Dashboard Function
     useEffect(() => {
@@ -81,13 +91,18 @@ function App () {
     return  accessToken ? 
                 <div className='container d-flex flex-column' style={{ height: '100vh' }}>
                     <Nav searchKey={ searchKey } 
-                         setSearchKey={ setSearchKey } />
-                    <DashBoard accessToken={ accessToken }
-                            recentlyPlayed={ recentlyPlayed }
-                            setRecentlyPlayed= { setRecentlyPlayed }
-                            newReleased={ newReleased }
-                            searchKey={ searchKey }
-                            searchTracks={ searchTracks }/> 
+                         setSearchKey={ setSearchKey } 
+                         toggle={ toggle} 
+                         setToggle={ setToggle } />
+                    { toggle    ? <Recently recentlyPlayed={ recentlyPlayed } />
+                                : <DashBoard accessToken={ accessToken }
+                                        recentlyPlayed={ recentlyPlayed }
+                                        setRecentlyPlayed= { setRecentlyPlayed }
+                                        newReleased={ newReleased }
+                                        searchKey={ searchKey }
+                                        searchTracks={ searchTracks }/> 
+                    }
+                    
                 </div>
             : <LandingPage /> 
 }
