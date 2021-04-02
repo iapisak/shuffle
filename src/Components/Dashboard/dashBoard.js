@@ -59,7 +59,9 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     }, [show, song])
     
     return  <>
-                { toggle    ? <History recentlyPlayed={ recentlyPlayed }/>
+                { toggle    ? <History  recentlyPlayed={ recentlyPlayed }
+                                        setSong={ setSong } 
+                                        handleModal={ handleModal }/>
                             : !searchKey    ? <Home newReleased={ newReleased }
                                                     recentlyPlayed={ recentlyPlayed }
                                                     setSong={ setSong } 
