@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Home from './Home/home'
 import Search from './Search/search'
+import History from './History/history'
 import TrackPlayer from '../TrackPlayer/trackPlayer'
 
 const initialSong = { 
@@ -12,12 +13,12 @@ const initialSong = {
     url: '', 
     trackUri: '' }
 
-export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPlayed, newReleased, searchKey, searchTracks }) {
+export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPlayed, newReleased, searchKey, searchTracks, toggle }) {
 
     const [ song, setSong ] = useState(initialSong)
     const [ lyric, setLyric ] = useState('')
     const [ play, setPlay ] = useState(false)
-    
+
     const addRecentlyPlayed = async () => {
         if (!song.trackUri) return 
         if (!recentlyPlayed.length) return setRecentlyPlayed([song])
@@ -58,15 +59,17 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     }, [show, song])
     
     return  <>
-                { !searchKey 
-                    ? <Home newReleased={ newReleased }
-                            recentlyPlayed={ recentlyPlayed }
-                            setSong={ setSong } 
-                            handleModal={ handleModal }/> 
-                    : <Search   searchKey={ searchKey }
-                                searchTracks={ searchTracks } 
-                                setSong={ setSong } 
-                                handleModal={ handleModal } /> 
+                { toggle    ? <History  recentlyPlayed={ recentlyPlayed }
+                                        setSong={ setSong } 
+                                        handleModal={ handleModal }/>
+                            : !searchKey    ? <Home newReleased={ newReleased }
+                                                    recentlyPlayed={ recentlyPlayed }
+                                                    setSong={ setSong } 
+                                                    handleModal={ handleModal }/> 
+                                            : <Search   searchKey={ searchKey }
+                                                    searchTracks={ searchTracks } 
+                                                    setSong={ setSong } 
+                                                    handleModal={ handleModal } /> 
                 }
 
                 <TrackPlayer    show={ show } 

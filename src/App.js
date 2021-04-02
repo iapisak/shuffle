@@ -16,6 +16,15 @@ function App () {
     const [ newReleased, setNewReleased ] = useState([])
     const [ searchTracks, setSearchTracks] = useState([])
     const [ recentlyPlayed, setRecentlyPlayed ] = useState([])
+    const [ toggle, setToggle ] = useState(false)
+    
+    useEffect(()=> {
+        if (searchKey) return setToggle(false)
+    }, [searchKey])
+
+    useEffect(() => {
+        if (toggle) return setSearchKey('')
+    }, [toggle])
 
     // New Released on Dashboard Function
     useEffect(() => {
@@ -81,13 +90,17 @@ function App () {
     return  accessToken ? 
                 <div className='container d-flex flex-column' style={{ height: '100vh' }}>
                     <Nav searchKey={ searchKey } 
-                         setSearchKey={ setSearchKey } />
+                         setSearchKey={ setSearchKey } 
+                         toggle={ toggle} 
+                         setToggle={ setToggle } />
                     <DashBoard accessToken={ accessToken }
                             recentlyPlayed={ recentlyPlayed }
                             setRecentlyPlayed= { setRecentlyPlayed }
                             newReleased={ newReleased }
                             searchKey={ searchKey }
-                            searchTracks={ searchTracks }/> 
+                            searchTracks={ searchTracks } 
+                            toggle={ toggle } 
+                            setToggle={ setToggle } /> 
                 </div>
             : <LandingPage /> 
 }

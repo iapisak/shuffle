@@ -10,6 +10,7 @@ body {
 
 input[type='search']::placeholder {
   text-align: center;
+  color: #5d4954;
 }
 
 .navbar-link {
@@ -43,12 +44,19 @@ input[type='search']::placeholder {
 }
 
 tbody tr:hover td {
-  background-color: rgba(117,98,19,0.8);
+  background-color: rgba(93, 73, 84, 0.4);
   color: #ffc107;
+}
+
+table {
+  position: relative;
 }
 
 table th {
   border: 0 !important;
+  position: sticky;
+  top: 0;
+  background-color: #5d4954;
 }
 
 tbody tr td {
