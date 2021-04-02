@@ -10,7 +10,7 @@ import './App.css'
 
 const authorizeCode = new URLSearchParams(window.location.search).get('code')
 
-export default function App () {
+function App () {
     const accessToken = Auth(authorizeCode)
     const [ searchKey, setSearchKey ] = useState('')   
     const [ newReleased, setNewReleased ] = useState([])
@@ -92,4 +92,5 @@ export default function App () {
             : <LandingPage /> 
 }
 
+export default App
 
