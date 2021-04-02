@@ -9,6 +9,7 @@ export default function Auth (authorizeCode)  {
     
 
     useEffect(()=> {
+        if (!authorizeCode) return
         const url = process.env.REACT_APP_API_URL
         axios.post(`${url}/api/v1/login`, { authorizeCode })
              .then(res => {
@@ -16,7 +17,7 @@ export default function Auth (authorizeCode)  {
                 setAccessToken(res.data.accessToken)
                 setRefreshToken(res.data.refreshToken)
                 setExpiresIn(res.data.expiresIn)
-                window.history.pushState({}, null, '/')
+                // window.history.pushState({}, null, '/')
              }).catch(()=> window.location = '/')
     }, [ authorizeCode ])
 
