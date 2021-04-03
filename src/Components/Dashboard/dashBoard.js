@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import Home from './Home/home'
-import Search from './Search/search'
+import Template from './template'
+
+
 import History from './History/history'
 import TrackPlayer from '../TrackPlayer/trackPlayer'
 
 const initialSong = { 
-    artist: '', 
-    artists: [], 
-    album: '',
+    id: '',
     title: '', 
-    url: '', 
-    trackUri: '' }
+    artists: [], 
+    album_type: '',
+    image: '',
+    uri: '', 
+    release_date: '' }
 
 export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPlayed, newReleased, searchKey, searchTracks, toggle }) {
 
@@ -20,9 +22,9 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     const [ play, setPlay ] = useState(false)
 
     const addRecentlyPlayed = async () => {
-        if (!song.trackUri) return 
+        if (!song.uri) return 
         if (!recentlyPlayed.length) return setRecentlyPlayed([song])
-        const isTrue = await recentlyPlayed.filter(item => item.trackUri === song.trackUri)
+        const isTrue = await recentlyPlayed.filter(item => item.uri === song.uri)
         if (isTrue.length) return
         const newArray = [...recentlyPlayed]
         newArray.unshift(song)
@@ -51,7 +53,8 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     // Lyric API
     useEffect(()=> {
         if (!show || !song) return
-        const {artist, title} = song
+        const artist = song.artists[0].name
+        const title = song.title
         const url = process.env.REACT_APP_API_URL
         axios.get(`${url}/api/v1/lyric/${artist}/${title}`)
              .then(({ data }) => setLyric(data.lyric))
@@ -59,25 +62,26 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     }, [show, song])
     
     return  <>
-                { toggle    ? <History  recentlyPlayed={ recentlyPlayed }
-                                        setSong={ setSong } 
-                                        handleModal={ handleModal }/>
-                            : !searchKey    ? <Home newReleased={ newReleased }
-                                                    recentlyPlayed={ recentlyPlayed }
-                                                    setSong={ setSong } 
-                                                    handleModal={ handleModal }/> 
-                                            : <Search   searchKey={ searchKey }
-                                                    searchTracks={ searchTracks } 
-                                                    setSong={ setSong } 
-                                                    handleModal={ handleModal } /> 
-                }
+            { toggle ? <Template data={ recentlyPlayed } head='Recently Played' setSong={ setSong } handleModal={ handleModal }/>
+                     : !searchKey ? <Template data={ newReleased } head='New Music' setSong={ setSong } handleModal={ handleModal }/> 
+                                  : searchKey && !searchTracks.length 
+                                            ?   <div className='d-flex flex-column justify-content-center align-items-center text-center mt-3 py-5' 
+                                                        style={{ backgroundColor: 'rgba(0,0,0,0.8)', height: '70vh' }}>
+                                                    <h4 className='display-4 lead text-warning'>Error 404</h4>
+                                                    <p className='display-6 mt-3'>We're sorry, the song/artist you request could not be found. <br /> Please go back to home page.</p>
+                                                </div>
+                                            :   <Template data={ searchTracks }
+                                                        head='Search Track' 
+                                                        setSong={ setSong } 
+                                                        handleModal={ handleModal } /> 
+            }
 
-                <TrackPlayer    show={ show } 
-                                handleModal={ handleModal }
-                                setPlay={ setPlay }
-                                lyric={ lyric }
-                                song= { song }
-                                accessToken={ accessToken }/>
+            <TrackPlayer    show={ show } 
+                            handleModal={ handleModal }
+                            setPlay={ setPlay }
+                            lyric={ lyric }
+                            song= { song }
+                            accessToken={ accessToken }/>
             </>
             
 }

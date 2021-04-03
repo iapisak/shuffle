@@ -2,7 +2,7 @@ import { Modal } from 'react-bootstrap'
 import SpotifyWebPlayer from 'react-spotify-web-playback'
 
 export default function TrackInfo ({ show, handleModal, lyric, song, accessToken, setPlay }) {
-  const { artists, album, title, url, trackUri } = song
+  const { title, artists, image, uri } = song
   
   return (
         <Modal show={ show } onHide={ handleModal } backdrop="static" keyboard={ false }>
@@ -11,11 +11,10 @@ export default function TrackInfo ({ show, handleModal, lyric, song, accessToken
             </Modal.Header>
             <Modal.Body>
                 <div className='d-flex pb-3' style={{ borderBottom: '1px solid #dee2e6'}}>
-                    <img className='' src={ url } style={{ height: '180px', width: '180px' }} alt='' />
+                    <img className='' src={ image } style={{ height: '180px', width: '180px' }} alt='' />
                     <div className='d-flex flex-column pl-3'>
                         <div className='text-dark'>
-                          { artists.map(artist =>  <h3 className='mb-0' key={ artist.id + url }>{artist.name}</h3> )}
-                          { album ? <div>{ album }</div> : null }
+                          { artists.map(artist =>  <h3 className='mb-0' key={ artist.id }>{artist.name}</h3> )}
                         </div>
                     </div>
                 </div>
@@ -40,7 +39,7 @@ export default function TrackInfo ({ show, handleModal, lyric, song, accessToken
             <Modal.Footer>
                 <SpotifyWebPlayer 
                     token={accessToken}
-                    uris={trackUri ? trackUri : ''}
+                    uris={uri ? uri : ''}
                     showSaveIcon
                     callback= {(state) => {
                         if (state.isPlaying) {
