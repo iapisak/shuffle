@@ -1,21 +1,26 @@
 import { Modal } from 'react-bootstrap'
 import SpotifyWebPlayer from 'react-spotify-web-playback'
+import moment from 'moment'
 
 export default function TrackInfo ({ show, handleModal, lyric, song, accessToken, setPlay }) {
-  const { title, artists, image, uri } = song
+    
+    const { title, artists, image, uri, release_date } = song
+    const date = release_date.replace('/-/g', '')
   
-  return (
+    return (
         <Modal show={ show } onHide={ handleModal } backdrop="static" keyboard={ false }>
             <Modal.Header closeButton style={{ backgroundColor: 'black' }}>
                 <Modal.Title className='text-warning lead'>{ title }</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className='d-flex pb-3' style={{ borderBottom: '1px solid #dee2e6'}}>
-                    <img className='' src={ image } style={{ height: '180px', width: '180px' }} alt='' />
-                    <div className='d-flex flex-column pl-3'>
-                        <div className='text-dark'>
-                          { artists.map(artist =>  <h3 className='mb-0' key={ artist.id }>{artist.name}</h3> )}
-                        </div>
+                <div className="row m-0 g-0 overflow-hidden flex-md-row h-md-250 position-relative text-dark">
+                    <div className="col-auto d-none d-lg-block p-0">
+                        <img className="" src={ image } style={{ width: '180px' }} alt="" />
+                    </div>
+                    <div className="col pl-4 d-flex flex-column position-static">
+                        <h3 className="display-5 mb-4">Play Track</h3>
+                        <div className="mb-1 text-normal">By { artists.map(artist => artist.name ).join(', ')}</div>
+                        <div className="mb-3">Released on { moment(date).format('MMMM D, YYYY') }<br />{ moment(date).fromNow() }</div>
                     </div>
                 </div>
                 <div className='d-flex flex-column justify-content-center align-items-center'>

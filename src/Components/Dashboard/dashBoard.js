@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Template from './template'
-
-
-import History from './History/history'
 import TrackPlayer from '../TrackPlayer/trackPlayer'
 
 const initialSong = { 
@@ -27,7 +24,7 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
         const isTrue = await recentlyPlayed.filter(item => item.uri === song.uri)
         if (isTrue.length) return
         const newArray = [...recentlyPlayed]
-        newArray.unshift(song)
+        newArray.push(song)
         setRecentlyPlayed(newArray)
     }
 
@@ -62,16 +59,20 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     }, [show, song])
     
     return  <>
-            { toggle ? <Template data={ recentlyPlayed } head='Recently Played' setSong={ setSong } handleModal={ handleModal }/>
+            { toggle ? recentlyPlayed.length ? <Template data={ recentlyPlayed } head='Recently Played' setSong={ setSong } handleModal={ handleModal }/>
+                                             : <div className='flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center py-5' 
+                                                    style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
+                                                    <h4 className='display-4 lead'>No History</h4>
+                                               </div>
                      : !searchKey ? <Template data={ newReleased } head='New Music' setSong={ setSong } handleModal={ handleModal }/> 
                                   : searchKey && !searchTracks.length 
-                                            ?   <div className='d-flex flex-column justify-content-center align-items-center text-center mt-3 py-5' 
-                                                        style={{ backgroundColor: 'rgba(0,0,0,0.8)', height: '70vh' }}>
-                                                    <h4 className='display-4 lead text-warning'>Error 404</h4>
+                                            ?   <div className='flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center py-5' 
+                                                        style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
+                                                    <h4 className='display-4 lead'>Error 404</h4>
                                                     <p className='display-6 mt-3'>We're sorry, the song/artist you request could not be found. <br /> Please go back to home page.</p>
                                                 </div>
                                             :   <Template data={ searchTracks }
-                                                        head='Search Track' 
+                                                        head='Search Result' 
                                                         setSong={ setSong } 
                                                         handleModal={ handleModal } /> 
             }
