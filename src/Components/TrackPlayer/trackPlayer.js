@@ -37,7 +37,7 @@ export default function TrackInfo ({ show, handleModal, lyric, song, accessToken
                     { lyric ? lyric === 'not found' 
                                 ? <div className='d-flex flex-column align-items-center justify-content-center background-model' 
                                        style={{ height: '53vh', backgroundImage: `linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('${image}')` }}>
-                                           <div className="container-fluid py-5">
+                                           <div className="container-fluid py-5 d-flex flex-column  align-items-center justify-content-center">
                                                 <h5 className="display-6 fw-bold text-center text-light">No Lyrics at this moment.</h5>
                                             </div>
                                   </div>
@@ -49,8 +49,8 @@ export default function TrackInfo ({ show, handleModal, lyric, song, accessToken
                                   
                             : <div className='d-flex align-items-center justify-content-center background-model' 
                                    style={{ height: '53vh', backgroundImage: `linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('${image}')` }}>
-                                    <div className="container-fluid py-5">
-                                        <h2 className="display-5 fw-bold text-center text-light">Loading...</h2>
+                                    <div className="container-fluid py-5 d-flex flex-column  align-items-center justify-content-center">
+                                        <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                                     </div>
                               </div> }
                 </div>
