@@ -66,21 +66,27 @@ function App () {
         })
     }, [searchKey, accessToken])
 
-    return  accessToken ? 
+    return  authorizeCode ? 
                 <div className='container p-0 mb-3 d-flex flex-column' style={{ height: '100vh' }}>
                     <Nav searchKey={ searchKey } 
                          setSearchKey={ setSearchKey } 
                          recentlyPlayed={ recentlyPlayed }
                          toggle={ toggle} 
                          setToggle={ setToggle } />
-                    <DashBoard accessToken={ accessToken }
-                            recentlyPlayed={ recentlyPlayed }
-                            setRecentlyPlayed= { setRecentlyPlayed }
-                            newReleased={ newReleased }
-                            searchKey={ searchKey }
-                            searchTracks={ searchTracks } 
-                            toggle={ toggle } 
-                            setToggle={ setToggle } /> 
+                         { accessToken ? 
+                            <DashBoard accessToken={ accessToken }
+                                    recentlyPlayed={ recentlyPlayed }
+                                    setRecentlyPlayed= { setRecentlyPlayed }
+                                    newReleased={ newReleased }
+                                    searchKey={ searchKey }
+                                    searchTracks={ searchTracks } 
+                                    toggle={ toggle } 
+                                    setToggle={ setToggle } /> 
+                            : <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center" style={{ backgroundColor: 'rgba(0,0,0,0.8)'}}>
+                                <h1 className='display-4 text-light'>Loading...</h1>
+                              </div>
+                         
+                        }
                 </div>
             : <LandingPage /> 
 }
