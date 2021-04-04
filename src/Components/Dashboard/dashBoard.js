@@ -65,7 +65,7 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
                                             ?   <div className='flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center py-5' 
                                                         style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
                                                     <h4 className='display-4 lead'>Error 404</h4>
-                                                    <p className='display-6 mt-3'>We're sorry, the song/artist you request could not be found. <br /> Please go back to home page.</p>
+                                                    <p className='display-6 mt-3'>We're sorry, the song/artist you request could not be found. <br /> Please try one more time.</p>
                                                 </div>
                                             :   <Template data={ searchTracks }
                                                         head='Search Result' 

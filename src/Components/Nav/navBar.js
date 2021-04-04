@@ -12,6 +12,9 @@ export default function NavBar ({ searchKey, setSearchKey, recentlyPlayed, toggl
                 <button className="navbar-toggler collapsed my-3 text-dark" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon text-dark"></span>
                 </button>
+                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                test modal
+                </button>
                 <div className="navbar-collapse collapse" id="navbarCollapse">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item mr-md-2">

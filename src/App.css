@@ -64,10 +64,20 @@ tbody tr td {
 tbody tr:hover {
   color: whitesmoke;
 }
-.modal-dialog button {
+.modal-dialog button.close {
   color: #ffc107;
 }
 
-.modal-dialog button:hover {
+.modal-dialog button.close:hover {
   color: #ffc107;
+}
+
+.background-model {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+button[type='button'].rswp__toggle {
+  font-size: 20px;
 }

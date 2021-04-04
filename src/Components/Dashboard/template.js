@@ -40,7 +40,9 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                                                 style={{ borderRadius: '30px' }}
                                                                 onClick={ async ()=> { 
                                                                     await setSong({ id, title, artists, album_type, image, uri, release_date })
-                                                                    await handleModal() }}>Play this song
+                                                                    await handleModal() }}>
+                                                                <svg width="1em" height="1em" viewBox="0 0 128 128" preserveAspectRatio="xMidYMid"><path d="M119.351 64L8.65 0v128z" fill="currentColor"></path></svg>
+                                                                Play this song
                                                         </button>
                                                     </div>
                                                 </div>
@@ -87,7 +89,7 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                         <td>{ artists[0].name }</td>
                                         { size.width > 1000 ? <>
                                                                 <td className='text-right'>{ moment(date).format('MMM D, YYYY') }</td>
-                                                                <td>{ moment(date).fromNow() }</td>
+                                                                <td className='pl-3'>{ moment(date).fromNow() }</td>
                                                               </> : null }
                                     </tr>})}
                         </tbody>
