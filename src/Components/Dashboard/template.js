@@ -27,21 +27,21 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                 const trackKey = `${id} + ${ title }`
                                 return  <div className={ index === 0 ? 'carousel-item active' : 'carousel-item'} key={ trackKey}>
                                             <div className="row m-0 g-0 overflow-hidden flex-md-row h-md-250 position-relative">
-                                                <div className="col-auto d-none d-lg-block p-2 bg-light">
+                                                <div className="col-auto d-none d-md-block p-3 bg-light">
                                                     <img className="" src={ image } style={{ width: '200px', borderRadius: '50%' }} alt="" />
                                                 </div>
-                                                <div className="col pl-4 d-flex flex-column position-static">
+                                                <div className="col pl-5 pl-md-4 d-flex flex-column position-static">
                                                     <h4 className="lead mb-0">{ title }</h4>
-                                                    <h1 className="display-4 font-weight-bold mb-0 text-light">{ head }</h1>
+                                                    <h1 className="display-5 mb-0 text-light">{ head }</h1>
                                                     <div className="mb-1 text-normal">By { artists.map(artist => artist.name ).join(', ')}</div>
                                                     <div className="mb-3">Released on { moment(date).format('MMMM D, YYYY') }, { moment(date).fromNow() }</div>
                                                     <div>
-                                                        <button className='btn btn-lg btn-success'
+                                                        <button className='btn btn-lg btn-success mb-2 d-flex justify-content-center align-items-center'
                                                                 style={{ borderRadius: '30px' }}
                                                                 onClick={ async ()=> { 
                                                                     await setSong({ id, title, artists, album_type, image, uri, release_date })
                                                                     await handleModal() }}>
-                                                                <svg width="1em" height="1em" viewBox="0 0 128 128" preserveAspectRatio="xMidYMid"><path d="M119.351 64L8.65 0v128z" fill="currentColor"></path></svg>
+                                                                <svg className='p-1' width="1em" height="1em" viewBox="0 0 128 128" preserveAspectRatio="xMidYMid"><path d="M119.351 64L8.65 0v128z" fill="currentColor"></path></svg> 
                                                                 Play this song
                                                         </button>
                                                     </div>
@@ -67,7 +67,7 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                 <th className='pl-4'></th>
                                 <th>Title</th>
                                 <th>Artist</th>
-                                { size.width > 1000 ? <> 
+                                { size.width > 990 ? <> 
                                                         <th className='text-right'>Released</th>
                                                         <th></th>
                                                       </> : null }
@@ -75,8 +75,9 @@ export default function Template ({ data, head, setSong, handleModal }) {
                         </thead>
                         <tbody>
                         { data.map(track => {
-                            const { id, title, artists, album_type, image, uri, release_date } = track
+                            let { id, title, artists, album_type, image, uri, release_date } = track
                             const date = release_date.replace('/-/g', '')
+
                             return <tr className='' key={ id } style={{ cursor: 'pointer' }} 
                                         onClick={async () => {
                                             await setSong({ id, title, artists, album_type, image, uri, release_date })
@@ -87,7 +88,7 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                         </td>
                                         <td>{ title }</td>
                                         <td>{ artists[0].name }</td>
-                                        { size.width > 1000 ? <>
+                                        { size.width > 990 ? <>
                                                                 <td className='text-right'>{ moment(date).format('MMM D, YYYY') }</td>
                                                                 <td className='pl-3'>{ moment(date).fromNow() }</td>
                                                               </> : null }

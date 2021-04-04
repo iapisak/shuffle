@@ -68,7 +68,7 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
                                                     <p className='display-6 mt-3'>We're sorry, the song/artist you request could not be found. <br /> Please try one more time.</p>
                                                 </div>
                                             :   <Template data={ searchTracks }
-                                                        head='Search Result' 
+                                                        head='Search' 
                                                         setSong={ setSong } 
                                                         handleModal={ handleModal } /> 
             }

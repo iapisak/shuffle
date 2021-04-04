@@ -5,8 +5,6 @@ import Nav from './Components/Nav/navBar'
 import DashBoard from './Components/Dashboard/dashBoard'
 import LandingPage from './Components/LandingPage/landingPage'
 
-import TestModal from './Components/TrackPlayer/modal'
-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -83,7 +81,6 @@ function App () {
                             searchTracks={ searchTracks } 
                             toggle={ toggle } 
                             setToggle={ setToggle } /> 
-                    <TestModal />
                 </div>
             : <LandingPage /> 
 }
