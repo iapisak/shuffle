@@ -7,7 +7,7 @@ body {
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
-  color: whitesmoke;
+  color: rgba(255,255,255,0.5);
 }
 
 input[type='search']::placeholder {
@@ -57,9 +57,13 @@ table th {
 }
 
 tbody tr td {
-  border: 0 !important;
+  /* border: 0 !important; */
+  border-color: rgba(255,255,255,0.1) !important;
 }
 
+tbody tr:hover {
+  color: whitesmoke;
+}
 .modal-dialog button {
   color: #ffc107;
 }

@@ -70,6 +70,7 @@ function App () {
                 <div className='container p-0 mb-3 d-flex flex-column' style={{ height: '100vh' }}>
                     <Nav searchKey={ searchKey } 
                          setSearchKey={ setSearchKey } 
+                         recentlyPlayed={ recentlyPlayed }
                          toggle={ toggle} 
                          setToggle={ setToggle } />
                     <DashBoard accessToken={ accessToken }

@@ -1,4 +1,4 @@
-export default function NavBar ({ searchKey, setSearchKey, toggle, setToggle }) {                                                                                        
+export default function NavBar ({ searchKey, setSearchKey, recentlyPlayed, toggle, setToggle }) {                                                                                        
 
     const logOut = () => {
         const url = 'https://www.spotify.com/logout/'                                                                                                                                                                                                                                                                               
@@ -28,13 +28,13 @@ export default function NavBar ({ searchKey, setSearchKey, toggle, setToggle }) 
                                      setSearchKey('')
                                  } }>Home</div>
                         </li>
-                        <li className="nav-item">
-                            <div className="nav-link navbar-link" 
-                                 onClick={()=> {
-                                     setToggle(!toggle)
-                                     setSearchKey('')
-                                } }>Recently Played</div>
-                        </li>
+                        { recentlyPlayed.length ?   <li className="nav-item">
+                                                        <div className="nav-link navbar-link" 
+                                                        onClick={()=> {
+                                                            setToggle(!toggle)
+                                                            setSearchKey('')
+                                                        } }>Recently Played</div>
+                                                    </li> : null }
                         <li className="nav-item">
                             <a className="nav-link" 
                                 href='/'

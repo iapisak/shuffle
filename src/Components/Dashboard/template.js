@@ -1,6 +1,22 @@
 import moment from 'moment'
+import { useState, useEffect } from 'react'
+
+function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({ width: undefined })
+  
+    useEffect(() => {
+        const handleResize = ()=> setWindowSize({ width: window.innerWidth })
+        window.addEventListener("resize", handleResize)
+        handleResize()
+        return () => window.removeEventListener("resize", handleResize);
+    }, [])
+  
+    return windowSize;
+  }
 
 export default function Template ({ data, head, setSong, handleModal }) {
+    const size = useWindowSize()
+
     return  <>
                 <div className='p-3' style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
                     <div id="carouselExampleInterval" className="carousel slide" data-ride="carousel">
@@ -11,16 +27,16 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                 const trackKey = `${id} + ${ title }`
                                 return  <div className={ index === 0 ? 'carousel-item active' : 'carousel-item'} key={ trackKey}>
                                             <div className="row m-0 g-0 overflow-hidden flex-md-row h-md-250 position-relative">
-                                                <div className="col-auto d-none d-lg-block p-0">
-                                                    <img className="" src={ image } style={{ width: '200px' }} alt="" />
+                                                <div className="col-auto d-none d-lg-block p-2 bg-light">
+                                                    <img className="" src={ image } style={{ width: '200px', borderRadius: '50%' }} alt="" />
                                                 </div>
                                                 <div className="col pl-4 d-flex flex-column position-static">
                                                     <h4 className="lead mb-0">{ title }</h4>
-                                                    <h1 className="display-4 font-weight-bold mb-0">{ head }</h1>
+                                                    <h1 className="display-4 font-weight-bold mb-0 text-light">{ head }</h1>
                                                     <div className="mb-1 text-normal">By { artists.map(artist => artist.name ).join(', ')}</div>
                                                     <div className="mb-3">Released on { moment(date).format('MMMM D, YYYY') }, { moment(date).fromNow() }</div>
                                                     <div>
-                                                        <button className='btn btn-lg btn-warning'
+                                                        <button className='btn btn-lg btn-success'
                                                                 style={{ borderRadius: '30px' }}
                                                                 onClick={ async ()=> { 
                                                                     await setSong({ id, title, artists, album_type, image, uri, release_date })
@@ -43,21 +59,23 @@ export default function Template ({ data, head, setSong, handleModal }) {
                     </div>
                 </div>
                 <div className="table-responsive flex-grow-1" style={{ backgroundColor: 'rgba(0,0,0,0.8)'}}>
-                    <table className="table table-sm text-light">
-                        <thead className=''>
+                    <table className="table table-sm" style={{ color: 'rgba(255,255,255,0.5)'}}>
+                        <thead>
                             <tr>
                                 <th className='pl-4'></th>
                                 <th>Title</th>
                                 <th>Artist</th>
-                                <th className='text-right pr-4'>Release date</th>
-                                <th></th>
+                                { size.width > 1000 ? <> 
+                                                        <th className='text-right'>Released</th>
+                                                        <th></th>
+                                                      </> : null }
                             </tr>
                         </thead>
                         <tbody>
                         { data.map(track => {
                             const { id, title, artists, album_type, image, uri, release_date } = track
                             const date = release_date.replace('/-/g', '')
-                            return <tr key={ id } style={{ cursor: 'pointer' }} 
+                            return <tr className='' key={ id } style={{ cursor: 'pointer' }} 
                                         onClick={async () => {
                                             await setSong({ id, title, artists, album_type, image, uri, release_date })
                                             await handleModal()
@@ -67,8 +85,10 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                         </td>
                                         <td>{ title }</td>
                                         <td>{ artists[0].name }</td>
-                                        <td className='text-right pr-4'>{ moment(date).format('MMM D, YYYY') }</td>
-                                        <td>{ moment(date).fromNow() }</td>
+                                        { size.width > 1000 ? <>
+                                                                <td className='text-right'>{ moment(date).format('MMM D, YYYY') }</td>
+                                                                <td>{ moment(date).fromNow() }</td>
+                                                              </> : null }
                                     </tr>})}
                         </tbody>
                     </table>

@@ -59,11 +59,7 @@ export default function Dashboard ({ accessToken, recentlyPlayed, setRecentlyPla
     }, [show, song])
     
     return  <>
-            { toggle ? recentlyPlayed.length ? <Template data={ recentlyPlayed } head='Recently Played' setSong={ setSong } handleModal={ handleModal }/>
-                                             : <div className='flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center py-5' 
-                                                    style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
-                                                    <h4 className='display-4 lead'>No History</h4>
-                                               </div>
+            { toggle ? <Template data={ recentlyPlayed } head='Recently Played' setSong={ setSong } handleModal={ handleModal }/>
                      : !searchKey ? <Template data={ newReleased } head='New Music' setSong={ setSong } handleModal={ handleModal }/> 
                                   : searchKey && !searchTracks.length 
                                             ?   <div className='flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center py-5' 
