@@ -10,9 +10,9 @@ export default function Welcome () {
                      style={{ backgroundImage: 'linear-gradient(147deg, rgba(44,62,80,0.5) 0%, rgba(0,0,0,0.6) 84%)', 
                               height: '70vh',
                               textShadow: '0 0.05rem 0.1rem rgba(0,0,0,0.1)' }}>
-                        <h1 className='display-3 text-warning font-weight-bold' 
+                        <h1 className='display-4 text-warning font-weight-bold' 
                             style={{ letterSpacing: '0.1rem', textShadow: '0 0.05rem 0.1rem rgba(255,255,255,0.2)'}}>Shuffle By Spotify</h1>
-                        <p className='lead'>Musics and Lyrics finder base on Spotify database API</p>
+                        <p className='lead py-3'>Find favarite Songs & Lyrics <br />with your Spotify premium account</p>
                         <a className="btn btn-lg bg-success text-white lead mt-3 px-4" 
                             href={ authorizeURL }
                             style={{ borderRadius: '30px' }}>Login with Spotify</a>
