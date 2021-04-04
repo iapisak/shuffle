@@ -1,11 +1,13 @@
 body {
   outline: none;
   text-decoration: none;
+  font-weight: 100;
   background-image: url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  color: whitesmoke;
+  background-attachment: fixed;
+  color: rgba(255,255,255,0.5);
 }
 
 input[type='search']::placeholder {
@@ -15,10 +17,6 @@ input[type='search']::placeholder {
 
 .navbar-link {
   cursor: pointer;
-}
-
-.navbar-link:hover {
-  color: #ba8b00 !important;
 }
 
 .sidebar {
@@ -45,7 +43,6 @@ input[type='search']::placeholder {
 
 tbody tr:hover td {
   background-color: rgba(93, 73, 84, 0.4);
-  color: #ffc107;
 }
 
 table {
@@ -60,13 +57,27 @@ table th {
 }
 
 tbody tr td {
-  border: 0 !important;
+  /* border: 0 !important; */
+  border-color: rgba(255,255,255,0.1) !important;
 }
 
-.modal-dialog button {
+tbody tr:hover {
+  color: whitesmoke;
+}
+.modal-dialog button.close {
   color: #ffc107;
 }
 
-.modal-dialog button:hover {
+.modal-dialog button.close:hover {
   color: #ffc107;
+}
+
+.background-model {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+button[type='button'].rswp__toggle {
+  font-size: 20px;
 }

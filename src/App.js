@@ -35,24 +35,14 @@ function App () {
         })
         spotifyApi.getNewReleases({ limit: 30, offset: 0, country: 'US'})
         .then(async data => {
-                const newReleasedResults = await data.body.albums.items.map(track => {
-                const image = track.images.reduce((min, current) => {
-                    if (min.height < current.height) return current
-                    return min
-                }, track.images[0])
-
-                return {
-                    id: track.id,
-                    title: track.name,
-                    artists: track.artists,
-                    artist_Id: track.artists[0].id,
-                    artist: track.artists[0].name,
-                    image: image,
-                    released: track.release_date,
-                    trackUri: track.uri
-                }
+                const results = await data.body.albums.items.map(track => {
+                    const { id, name, artists, album_type, images, uri, release_date } = track
+                    const image = images.reduce((min, current) => {
+                        if (min.height < current.height) return current
+                        return min }, track.images[0])
+                    return { id, title: name, artists, album_type, image: image.url, uri, release_date }
             })
-        setNewReleased(newReleasedResults)
+        setNewReleased(results)
         })
     }, [accessToken]) 
 
@@ -66,41 +56,37 @@ function App () {
         })
         spotifyApi.searchTracks(searchKey).then(data => {
             const results = data.body.tracks.items.map(track => {
-                const image = track.album.images.reduce((min, current) => {
+                const { id, name, artists, album: { album_type }, album: { images }, uri, album: { release_date }} = track
+                const image = images.reduce((min, current) => {
                     if (min.height < current.height) return current
-                    return min
-                }, track.album.images[0])
-
-                return {
-                    id: track.id,
-                    title: track.name,
-                    artists: track.album.artists,
-                    artist: track.artists[0],
-                    album: track.album.name,
-                    image: image,
-                    released: track.album.release_date,
-                    duration: track.duration_ms,
-                    trackUri: track.uri,
-                }
+                    return min }, track.album.images[0])
+                return { id, title: name, artists, album_type, image: image.url, uri, release_date }
             })
             setSearchTracks(results)
         })
     }, [searchKey, accessToken])
 
-    return  accessToken ? 
-                <div className='container d-flex flex-column' style={{ height: '100vh' }}>
+    return  authorizeCode ? 
+                <div className='container p-0 mb-3 d-flex flex-column' style={{ height: '100vh' }}>
                     <Nav searchKey={ searchKey } 
                          setSearchKey={ setSearchKey } 
+                         recentlyPlayed={ recentlyPlayed }
                          toggle={ toggle} 
                          setToggle={ setToggle } />
-                    <DashBoard accessToken={ accessToken }
-                            recentlyPlayed={ recentlyPlayed }
-                            setRecentlyPlayed= { setRecentlyPlayed }
-                            newReleased={ newReleased }
-                            searchKey={ searchKey }
-                            searchTracks={ searchTracks } 
-                            toggle={ toggle } 
-                            setToggle={ setToggle } /> 
+                         { accessToken ? 
+                            <DashBoard accessToken={ accessToken }
+                                    recentlyPlayed={ recentlyPlayed }
+                                    setRecentlyPlayed= { setRecentlyPlayed }
+                                    newReleased={ newReleased }
+                                    searchKey={ searchKey }
+                                    searchTracks={ searchTracks } 
+                                    toggle={ toggle } 
+                                    setToggle={ setToggle } /> 
+                            : <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center" style={{ backgroundColor: 'rgba(0,0,0,0.8)'}}>
+                                <h1 className='display-4 text-light'>Loading...</h1>
+                              </div>
+                         
+                        }
                 </div>
             : <LandingPage /> 
 }

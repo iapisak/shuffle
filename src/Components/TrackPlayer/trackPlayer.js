@@ -1,46 +1,64 @@
 import { Modal } from 'react-bootstrap'
 import SpotifyWebPlayer from 'react-spotify-web-playback'
+import moment from 'moment'
 
 export default function TrackInfo ({ show, handleModal, lyric, song, accessToken, setPlay }) {
-  const { artists, album, title, url, trackUri } = song
+    
+    const { title, artists, image, uri, release_date } = song
+    const date = release_date.replace('/-/g', '')
   
-  return (
-        <Modal show={ show } onHide={ handleModal } backdrop="static" keyboard={ false }>
+    return (
+        <Modal show={ show } onHide={ handleModal } backdrop="static" keyboard={ false } 
+               style={{ fontSize: '.875rem' }}>
             <Modal.Header closeButton style={{ backgroundColor: 'black' }}>
-                <Modal.Title className='text-warning lead'>{ title }</Modal.Title>
+                <Modal.Title className='text-secondary lead' style={{ fontSize: '1rem', fontWeight: '300' }}>
+                    <h3 className='display-6 m-0 text-light'>Play List</h3>
+                </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <div className='d-flex pb-3' style={{ borderBottom: '1px solid #dee2e6'}}>
-                    <img className='' src={ url } style={{ height: '180px', width: '180px' }} alt='' />
-                    <div className='d-flex flex-column pl-3'>
-                        <div className='text-dark'>
-                          { artists.map(artist =>  <h3 className='mb-0' key={ artist.id + url }>{artist.name}</h3> )}
-                          { album ? <div>{ album }</div> : null }
-                        </div>
+            <Modal.Body className='p-0'>
+                <div className="row p-3 m-0 border-bottom">
+                    <div className="col p-4" style={{ backgroundColor: 'rgba(0,0,0,1)' }}>
+                        <img className="img-fluid" src={ image } style={{ borderRadius: '50%' }} alt="" />
+                    </div>
+                    <div className="col-7 p-0 pl-3 d-flex flex-column text-dark justify-content-center">
+                        <h1 className='display-6 m-0 font-weight-bold text-success'>Track</h1>
+                        <p className="pl-2 mb-3" style={{ fontSize: '.875rem', color: '#6c757d' }}>{ title }</p>
+                        <figure className='pl-2'>
+                            <blockquote className="blockquote mb-1">
+                                <p className="m-0" style={{ fontSize: '.875rem' }}>By ({ artists.map(artist => artist.name ).join(', ')})</p>
+                            </blockquote>
+                            <figcaption className="blockquote-footer">
+                                Released on <cite title={ moment(date).fromNow() }>{ moment(date).fromNow() }</cite>
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
-                <div className='d-flex flex-column justify-content-center align-items-center'>
-                    { lyric ? 
-                        lyric === 'not found' 
-                            ? <div className='d-flex flex-column justify-content-center align-items-center text-center' style={{ height: '10vh' }}>
-                                <h5 className='mt-3 mb-0 text-dark'>Lyric could not be found at this moment.</h5>
-                              </div>
-                            : <>
-                                <h4 className='py-2 text-dark'>Lyrics</h4> 
-                                <div className='flex-grow-1 overflow-auto' style={{ height: '45vh' }}>
-                                  <div className='text-muted text-center' style={{ whiteSpace: 'pre', fontSize: '.875rem' }}>{ lyric }</div>
-                                </div>
-                              </>
-                    : <div className='d-flex flex-column justify-content-center align-items-center' style={{ height: '10vh' }}>
-                        <h5 className='mt-3 mb-0 text-dark'>Loading...</h5> 
-                      </div>  }
-                      
+                <div className='text-muted' >
+                    { lyric ? lyric === 'not found' 
+                                ? <div className='d-flex flex-column align-items-center justify-content-center background-model' 
+                                       style={{ height: '53vh', backgroundImage: `linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('${image}')` }}>
+                                           <div className="container-fluid py-5">
+                                                <h5 className="display-6 fw-bold text-center text-light">No Lyrics at this moment.</h5>
+                                            </div>
+                                  </div>
+                                : 
+                                    <div className='p-4 overflow-auto' style={{ height: '53vh' }}>
+                                        <h4 className='mb-4 text-center'>Lyrics</h4> 
+                                        <div className='text-center' style={{ whiteSpace: 'pre' }}>{ lyric }</div>
+                                    </div>
+                                  
+                            : <div className='d-flex align-items-center justify-content-center background-model' 
+                                   style={{ height: '53vh', backgroundImage: `linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('${image}')` }}>
+                                    <div className="container-fluid py-5">
+                                        <h2 className="display-5 fw-bold text-center text-light">Loading...</h2>
+                                    </div>
+                              </div> }
                 </div>
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className='p-0'>
                 <SpotifyWebPlayer 
                     token={accessToken}
-                    uris={trackUri ? trackUri : ''}
+                    uris={uri ? uri : ''}
                     showSaveIcon
                     callback= {(state) => {
                         if (state.isPlaying) {
@@ -49,13 +67,13 @@ export default function TrackInfo ({ show, handleModal, lyric, song, accessToken
                     }}
 
                     styles={{
-                        activeColor: 'red',
+                        activeColor: 'pink',
                         bgColor: 'black',
-                        color: '#fff',
-                        loaderColor: '#ffc107',
-                        sliderColor: '#ffc107',
-                        trackArtistColor: '#ffc107',
-                        trackNameColor: '#ffc107',
+                        color: 'white',
+                        loaderColor: 'white',
+                        sliderColor: 'gray',
+                        trackArtistColor: 'gray',
+                        trackNameColor: 'white',
                         }}
                     />
             </Modal.Footer>
