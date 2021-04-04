@@ -7,6 +7,7 @@ import LandingPage from './Components/LandingPage/landingPage'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+import './Loading.css'
 
 const authorizeCode = new URLSearchParams(window.location.search).get('code')
 
@@ -83,7 +84,7 @@ function App () {
                                     toggle={ toggle } 
                                     setToggle={ setToggle } /> 
                             : <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center" style={{ backgroundColor: 'rgba(0,0,0,0.8)'}}>
-                                <h1 className='display-4 text-light'>Loading...</h1>
+                                <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                               </div>
                          
                         }
