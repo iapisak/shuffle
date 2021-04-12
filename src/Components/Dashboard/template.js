@@ -32,11 +32,11 @@ export default function Template ({ data, head, setSong, handleModal }) {
                                                 </div>
                                                 <div className="col pl-5 pl-md-4 d-flex flex-column position-static">
                                                     <h4 className="lead mb-0">{ title }</h4>
-                                                    <h1 className="display-5 mb-0 text-light">{ head }</h1>
+                                                    <h1 className="display-5 mb-0 text-warning">{ head }</h1>
                                                     <div className="mb-1 text-normal">By { artists.map(artist => artist.name ).join(', ')}</div>
                                                     <div className="mb-3">Released on { moment(date).format('MMMM D, YYYY') }, { moment(date).fromNow() }</div>
                                                     <div>
-                                                        <button className='btn btn-lg btn-success mb-2 d-flex justify-content-center align-items-center'
+                                                        <button className='btn btn-lg btn-primary mb-2 d-flex justify-content-center align-items-center'
                                                                 style={{ borderRadius: '30px' }}
                                                                 onClick={ async ()=> { 
                                                                     await setSong({ id, title, artists, album_type, image, uri, release_date })
@@ -61,7 +61,7 @@ export default function Template ({ data, head, setSong, handleModal }) {
                     </div>
                 </div>
                 <div className="table-responsive flex-grow-1" style={{ backgroundColor: 'rgba(0,0,0,0.8)'}}>
-                    <table className="table table-sm" style={{ color: 'rgba(255,255,255,0.5)'}}>
+                    <table className="table table-sm text-light" style={{ color: 'rgba(255,255,255,0.5)'}}>
                         <thead>
                             <tr>
                                 <th className='pl-4'></th>

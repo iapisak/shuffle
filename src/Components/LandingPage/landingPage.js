@@ -13,7 +13,7 @@ export default function Welcome () {
                         <h1 className='display-4 text-warning font-weight-bold' 
                             style={{ letterSpacing: '0.1rem', textShadow: '0 0.05rem 0.1rem rgba(255,255,255,0.2)'}}>Shuffle By Spotify</h1>
                         <p className='lead py-3'>Find favarite Songs & Lyrics <br />with your Spotify premium account</p>
-                        <a className="btn btn-lg bg-success text-white lead mt-3 px-4" 
+                        <a className="btn btn-lg btn-primary mt-2 px-4" 
                             href={ authorizeURL }
                             style={{ borderRadius: '30px' }}>Login with Spotify</a>
                 </div>
